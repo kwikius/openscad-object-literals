@@ -266,6 +266,7 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(src)
+include_directories(src/ext/json)
 
 FLEX_TARGET(openscad_lexer src/lexer.l ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lexer.cxx DEFINES_FILE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lexer.hxx COMPILE_FLAGS ${WINCOMPAT})
 BISON_TARGET(openscad_parser src/parser.y ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/parser.cxx DEFINES_FILE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/parser.hxx COMPILE_FLAGS "-d -p parser")
@@ -627,6 +628,10 @@ set(GUI_SOURCES
   src/input/InputDriverManager.cc
   src/input/InputEventMapper.cc
   src/input/WheelIgnorer.cc
+  src/tabmanager.cc
+  src/import_json.cc
+  src/scadapi.cc
+  src/tabwidget.cc
   ${INPUT_DRIVER_SOURCES}
   )
 

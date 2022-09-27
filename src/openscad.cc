@@ -262,7 +262,7 @@ void set_render_color_scheme(const std::string color_scheme, const bool exit_if_
 
 	if (exit_if_not_found) {
 		PRINTB("Unknown color scheme '%s'. Valid schemes:", color_scheme);
-		PRINT(boost::join(ColorMap::inst()->colorSchemeNames(), "\n"));
+	//	PRINT(boost::join(ColorMap::inst()->colorSchemeNames(), "\n"));
 		exit(1);
 	} else {
 		PRINTB("Unknown color scheme '%s', using default '%s'.", arg_colorscheme % ColorMap::inst()->defaultColorSchemeName());
@@ -350,7 +350,7 @@ int cmdline(const char *deps_output_file, const std::string &filename, const cha
 		param.readParameterSet(parameterFile);
 		param.applyParameterSet(root_module, setName);
 	}
-    
+
 	root_module->handleDependencies();
 
 	auto fpath = fs::absolute(fs::path(filename));
@@ -799,7 +799,7 @@ int main(int argc, char **argv)
 #else
 	PlatformUtils::registerApplicationPath(fs::absolute(boost::filesystem::path(argv[0]).parent_path()).generic_string());
 #endif
-	
+
 #ifdef Q_OS_MAC
 	bool isGuiLaunched = getenv("GUI_LAUNCHED") != nullptr;
 	if (isGuiLaunched) set_output_handler(CocoaUtils::nslog, nullptr);
@@ -846,7 +846,7 @@ int main(int argc, char **argv)
 		("imgsize", po::value<string>(), "=width,height of exported png")
 		("render", po::value<string>()->implicit_value(""), "for full geometry evaluation when exporting png")
 		("preview", po::value<string>()->implicit_value(""), "[=throwntogether] -for ThrownTogether preview png")
-		("view", po::value<CommaSeparatedVector>(), ("=view options: " + boost::join(viewOptions.names(), " | ")).c_str())
+	//	("view", po::value<CommaSeparatedVector>(), ("=view options: " + boost::join(viewOptions.names(), " | ")).c_str())
 		("projection", po::value<string>(), "=(o)rtho or (p)erspective when exporting png")
 		("csglimit", po::value<unsigned int>(), "=n -stop rendering at n CSG elements when exporting png")
 		("colorscheme", po::value<string>(), ("=colorscheme: " +
@@ -900,7 +900,7 @@ int main(int argc, char **argv)
 	if (vm.count("hardwarnings")) {
 		OpenSCAD::hardwarnings = true;
 	}
-	
+
 	std::map<std::string, bool*> flags;
 	flags.insert(std::make_pair("check-parameters",&OpenSCAD::parameterCheck));
 	flags.insert(std::make_pair("check-parameter-ranges",&OpenSCAD::rangeCheck));
@@ -915,7 +915,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	if (vm.count("help")) help(argv[0], desc);
 	if (vm.count("version")) version();
 	if (vm.count("info")) arg_info = true;
@@ -997,7 +997,7 @@ int main(int argc, char **argv)
 		}
 		parameterSet = vm["P"].as<string>().c_str();
 	}
-	
+
 	vector<string> inputFiles;
 	if (vm.count("input-file"))	{
 		inputFiles = vm["input-file"].as<vector<string>>();

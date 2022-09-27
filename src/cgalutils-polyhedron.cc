@@ -343,10 +343,12 @@ namespace CGALUtils {
 		sstream.precision(20);
 
     Polyhedron_writer writer;
-    generic_print_polyhedron(sstream, p, writer);
+
+  //   generic_print_polyhedron(sstream, p, writer);
 		
 		return sstream.str();
 	}
+
 
 	template std::string printPolyhedron(const CGAL_Polyhedron &p);
 

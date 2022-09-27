@@ -49,6 +49,7 @@
 #include <boost/filesystem.hpp>
 #include "boost-utils.h"
 #include "feature.h"
+#include <stack>
 
 namespace fs = boost::filesystem;
 
@@ -534,7 +535,7 @@ expr_or_empty
               $$ = $1;
             }
         ;
- 
+
 /* The last set element may not be a "let" (as that would instead
    be parsed as an expression) */
 list_comprehension_elements

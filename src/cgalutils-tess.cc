@@ -17,8 +17,12 @@ struct FaceInfo {
   int nesting_level;
   bool in_domain() { return nesting_level%2 == 1; }
 };
-
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,11,0)
+typedef CGAL::Filtered_projection_traits_3<K> Projection;
+#else
 typedef CGAL::Triangulation_2_filtered_projection_traits_3<K> Projection;
+#endif // CGAL_VERSION_NR
+
 typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo, K> Fbb;
 typedef CGAL::Triangulation_data_structure_2<
 	CGAL::Triangulation_vertex_base_2<Projection>,
@@ -27,9 +31,9 @@ typedef CGAL::Constrained_Delaunay_triangulation_2<
 	Projection, Tds, CGAL::Exact_predicates_tag> CDT;
 
 
-static void  mark_domains(CDT &ct, 
-													CDT::Face_handle start, 
-													int index, 
+static void  mark_domains(CDT &ct,
+													CDT::Face_handle start,
+													int index,
 													std::list<CDT::Edge>& border)
 {
   if (start->info().nesting_level != -1) return;
@@ -56,7 +60,7 @@ static void  mark_domains(CDT &ct,
 //explore set of facets connected with non constrained edges,
 //and attribute to each such set a nesting level.
 //We start from facets incident to the infinite vertex, with a nesting
-//level of 0. Then we recursively consider the non-explored facets incident 
+//level of 0. Then we recursively consider the non-explored facets incident
 //to constrained edges bounding the former set and increase the nesting level by 1.
 //Facets in the domain are those with an odd nesting level.
 static void mark_domains(CDT& cdt)
@@ -81,7 +85,7 @@ namespace CGALUtils {
 		polygons define a polygon, potentially with holes. Each contour
 		should be added as a separate PolygonK instance.
 		The tessellator will handle almost planar polygons.
-		
+
 		If the normal is given, we will assume this as the normal vector of the polygon.
 		Otherwise, we will try to calculate it using Newell's method.
 
@@ -96,7 +100,7 @@ namespace CGALUtils {
 
 		// No hole
 		if (polygons.size() == 1) return tessellatePolygon(polygons.front(), triangles, normal);
-		
+
 		K::Vector_3 normalvec;
 		if (normal) {
 			normalvec = *normal;
@@ -164,7 +168,7 @@ namespace CGALUtils {
 		}
 		double sqrl = normalvec.squared_length();
 		if (sqrl > 0.0) normalvec = normalvec / sqrt(sqrl);
-		
+
 		// Pass the normal vector to the (undocumented)
 		// CGAL::Triangulation_2_filtered_projection_traits_3. This
 		// trait deals with projection from 3D to 2D using the normal
@@ -175,7 +179,7 @@ namespace CGALUtils {
 		for (size_t i=0;i<polygon.size(); i++) {
 			cdt.insert_constraint(polygon[i], polygon[(i+1)%polygon.size()]);
 		}
-		
+
 		//Mark facets that are inside the domain bounded by the polygon
 		mark_domains(cdt);
 
